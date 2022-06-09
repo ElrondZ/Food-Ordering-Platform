@@ -1,6 +1,7 @@
 package com.example.ruiji.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.example.ruiji.common.BaseContext;
 import com.example.ruiji.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -43,6 +44,10 @@ public class LoginCheckFilter implements Filter {
 
         if(request.getSession().getAttribute("employee")!= null){
             log.info("用户已登录，id为: {}", request.getSession());
+
+            Long empId = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(empId);
+
             filterChain.doFilter(request, response);
             return;
         }
