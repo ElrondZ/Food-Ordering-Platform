@@ -1,6 +1,7 @@
 package com.omtou.ruiji.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.omtou.ruiji.common.R;
 import com.omtou.ruiji.entity.Employee;
 import com.omtou.ruiji.service.EmployeeService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 /**
  * Created by IntelliJ IDEA.
@@ -69,14 +71,46 @@ public class EmployeeController {
     }
 
     /**
-     * Employee Logout Function
+     * Employee log out function
      * @param request
-     * @param employee
-     * @return R
+     * @return
      */
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request) {
         request.getSession().removeAttribute("employee");
         return R.success("Logout successfully!");
+    }
+
+    /**
+     * Add employee information
+     * @param httpServletRequest
+     * @param employee
+     * @return
+     */
+    @PostMapping
+    public R<String> save(HttpServletRequest httpServletRequest, @RequestBody Employee employee) {
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        Long empId = (Long) httpServletRequest.getSession().getAttribute("employee");
+
+        employee.setCreateUser(empId);
+        employee.setUpdateUser(empId);
+
+        employeeService.save(employee);
+
+        return R.success("Add information successfully.");
+    }
+
+    /**
+     * Employee information pages
+     * @param page
+     * @param pageSize
+     * @param name
+     * @return
+     */
+    public R<Page> page(int page, int pageSize, String name) {
+
     }
 }
