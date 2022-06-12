@@ -1,5 +1,6 @@
 package com.omtou.ruiji.filter;
 import com.alibaba.fastjson.JSON;
+import com.omtou.ruiji.common.BaseContext;
 import com.omtou.ruiji.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -47,6 +48,13 @@ public class LoginCheckFilter implements Filter {
         //4. check login status
         if (request.getSession().getAttribute("employee") != null) {
             log.info("The user has logged in, User ID: {}",request.getSession().getAttribute("employee"));
+
+
+            Long empId = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(empId);
+
+            long id = Thread.currentThread().getId();
+            log.info("Thread ID: {}");
             filterChain.doFilter(request,response);
             return;
         }
