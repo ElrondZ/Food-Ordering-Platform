@@ -13,7 +13,6 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -26,7 +25,6 @@ public class EmployeeController {
 
     /**
      * employee login
-     *
      * @param request
      * @param employee
      * @return
@@ -130,7 +128,7 @@ public class EmployeeController {
     public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
         log.info(employee.toString());
         long id = Thread.currentThread().getId();
-        log.info("Thread ID: {}");
+        log.info("Thread ID: {}",id);
 
         //Long empID = (Long)(request.getSession().getAttribute("employee"));
         //employee.setUpdateTime(LocalDateTime.now());
@@ -144,7 +142,10 @@ public class EmployeeController {
     public R<Employee> getById(@PathVariable Long id) {
         log.info("searching by employee id");
         Employee employee = employeeService.getById(id);
-        return R.success(employee);
+        if(employee != null) {
+            return R.success(employee);
+        }
+        return R.error("no such employee's info");
     }
 
 }

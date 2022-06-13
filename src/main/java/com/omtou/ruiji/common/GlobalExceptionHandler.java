@@ -27,4 +27,18 @@ public class GlobalExceptionHandler {
         return R.error("Unknown Error");
     }
 
+    /**
+     * exception handler
+     */
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException exception){
+        log.error(exception.getMessage());
+        if(exception.getMessage().contains("Duplicate entry")) {
+            String[] split = exception.getMessage().split(" ");
+            String msg = split[2] + "has already existed";
+            return R.error(msg);
+        }
+        return R.error("Unknown Error");
+    }
+
 }
