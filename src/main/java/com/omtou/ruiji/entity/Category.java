@@ -11,40 +11,47 @@ import java.time.LocalDateTime;
  * Created by IntelliJ IDEA.
  *
  * @Project Name: Ruiji
- * @Description: Employee Entity
+ * @Description: Category Entity
  * @Author: Paul Zeng
- * @date: 2022-06-09 10:18
+ * @date: 2022-06-13 15:03
  **/
 @Data
-public class Employee implements Serializable {
+public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
-    private String username;
 
+    //类型 1 菜品分类 2 套餐分类
+    private Integer type;
+
+
+    //分类名称
     private String name;
 
-    private String password;
 
-    private String phone;
+    //顺序
+    private Integer sort;
 
-    private String sex;
 
-    private String idNumber;
-
-    private Integer status;
-
+    //创建时间
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+
+    //更新时间
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
+
+    //创建人
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
+
+    //修改人
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
+
 }

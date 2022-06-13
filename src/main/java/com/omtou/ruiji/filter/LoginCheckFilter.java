@@ -1,6 +1,7 @@
 package com.omtou.ruiji.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.omtou.ruiji.common.BaseContext;
 import com.omtou.ruiji.common.R;
 import com.omtou.ruiji.entity.Employee;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +57,10 @@ public class LoginCheckFilter implements Filter {
 
         // 4. Check login status, If already logged in, let go
         if(request.getSession().getAttribute("employee") != null) {
+            Long empId = (Long) request.getSession().getAttribute("employee");
+
+            BaseContext.setCurrentID(empId);
+
             filterChain.doFilter(request, response);
             return;
         }

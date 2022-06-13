@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     public R<String> exceptionHandler(SQLIntegrityConstraintViolationException exception) {
         log.error(exception.getMessage());
 
-        if (exception.getMessage().contains("Duplicate key")) {
+        if (exception.getMessage().contains("Duplicate entry")) {
             String[] split = exception.getMessage().split(" ");
             String msg = split[2] + "already exists.";
             return R.error(msg);
