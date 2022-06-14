@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  *
@@ -61,6 +63,35 @@ public class CategoryController {
         log.info("Delete category, id is: {}", id);
         categoryService.remove(id);
         return R.success("Successfully Deleted.");
+    }
+
+    /**
+     * Update category via ID
+     * @param category
+     * @return
+     */
+    @PutMapping
+    public R<String> update(@RequestBody Category category) {
+        categoryService.updateById(category);
+        return R.success("Successfully Updated.");
+    }
+
+    /**
+     * Find category via criteria
+     * @param category
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Category>> list(Category category) {
+        LambdaQueryWrapper<Category> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+
+        lambdaQueryWrapper.eq(category.getType() != null, Category::getType, category.getType());
+
+        lambdaQueryWrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+
+        List<Category> list = categoryService.list(lambdaQueryWrapper);
+
+        return R.success(list);
     }
 
 }
