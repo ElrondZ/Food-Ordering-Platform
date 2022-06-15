@@ -22,4 +22,10 @@ public class GlobalExceptionHandler {
         }
         return R.error("Known problem");
     }
+
+    @ExceptionHandler(CustomException.class)
+    public R<String> SQLHandler(CustomException e){
+        log.error(e.getMessage());
+        return R.error(e.getMessage());
+    }
 }
