@@ -1,6 +1,7 @@
 package com.example.reggie.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.example.reggie.common.BaseContext;
 import com.example.reggie.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -36,6 +37,7 @@ public class LoginCheckFilter implements Filter {
                 "/employee/logout",
                 "/backend/**",
                 "/frontend/**",
+                "/common/**"
         };
 
         //2. determine if this request needs to process
@@ -51,6 +53,13 @@ public class LoginCheckFilter implements Filter {
         //4. determine if current login status >> if login, give access
         if (hsRequest.getSession().getAttribute("employee") != null) {
             log.info("User * {} * already login, no needs to process", hsRequest.getSession().getAttribute("employee"));
+
+            Long empId = (Long) hsRequest.getSession().getAttribute("employee");
+            BaseContext.setCurID(empId);
+
+            long id = Thread.currentThread().getId();
+            log.info("Thread ID: {}", id);
+
             filterChain.doFilter(hsRequest, hsResponse);
             return; // function end, no needs for further.
         }
