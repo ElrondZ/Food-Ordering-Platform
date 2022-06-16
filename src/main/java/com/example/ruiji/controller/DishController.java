@@ -77,4 +77,13 @@ public class DishController {
         dishService.updateWithFlavor(dishDto);
         return R.success("Dish added success");
     }
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish){
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+
+        List<Dish> list = dishService.list(queryWrapper);
+        return R.success(list);
+    }
 }
