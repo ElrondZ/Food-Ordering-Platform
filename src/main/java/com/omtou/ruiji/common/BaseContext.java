@@ -18,4 +18,8 @@ public class BaseContext {
     public static Long getCurrentId() {
         return threadLocal.get();
     }
+
+    public static void setCurrentId(Long id){
+        threadLocal.set(id);
+    }
 }
