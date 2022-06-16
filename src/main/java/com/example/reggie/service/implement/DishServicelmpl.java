@@ -51,7 +51,7 @@ public class DishServicelmpl extends ServiceImpl<DishMapper, Dish> implements Di
 
          // search dish flavor by id
          LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-         lambdaQueryWrapper.eq(DishFlavor::getId, dish.getId());
+         lambdaQueryWrapper.eq(DishFlavor::getDishId, dish.getId());
          List<DishFlavor> dishFlavorList = dishFlavorService.list(lambdaQueryWrapper);
          dishDto.setFlavors(dishFlavorList);
 

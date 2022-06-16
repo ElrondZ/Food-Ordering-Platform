@@ -74,7 +74,6 @@ public class CategoryController {
         List<Category> list = categoryService.list(lambdaQueryWrapper);
 
         // 返还 数据库中所有种类
-
         return R.success(list);
     }
 }

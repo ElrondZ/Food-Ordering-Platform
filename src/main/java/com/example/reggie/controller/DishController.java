@@ -80,7 +80,7 @@ public class DishController {
         }).collect(Collectors.toList());
         dishDtoPage.setRecords(recordList);
 
-        return R.success(pageInfo);
+        return R.success(dishDtoPage);
     }
 
     @GetMapping("/{id}")
