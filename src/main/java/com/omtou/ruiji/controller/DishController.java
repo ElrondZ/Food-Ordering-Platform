@@ -125,6 +125,27 @@ public class DishController {
         return R.success("add dish successfully");
     }
 
+    /**
+     * searching dish data by conditions
+     * @param dish
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish) {
+        //build searching conditions
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(dish.getCategoryId() != null,Dish::getCategoryId,dish.getCategoryId());
+        //searching that status = 1(in stock)
+        queryWrapper.eq(Dish::getStatus,1);
+        //add ordering conditions
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+
+        List<Dish> list = dishService.list(queryWrapper);
+        return R.success(list);
+
+
+    }
+
 
 
 }
