@@ -62,7 +62,7 @@ public class EmployeeController {
         employee.setCreateTime(LocalDateTime.now());
         employee.setUpdateTime(LocalDateTime.now());
 
-        long empID = (long) request.getSession().getAttribute("employee");
+        Long empID = (Long) request.getSession().getAttribute("employee");
 
         employee.setCreateUser(empID);
         employee.setUpdateUser(empID);
@@ -88,20 +88,21 @@ public class EmployeeController {
 
         return R.success(pageInfo);
     }
+
     @PutMapping
     public R<String> update(HttpServletRequest request, @RequestBody Employee employee){
         log.info(employee.toString());
 
-//        long empId = (long)request.getSession().getAttribute("employee");
-//        employee.setUpdateTime(LocalDateTime.now());
-//        employee.setUpdateUser(empId);
+        Long empId = (Long)request.getSession().getAttribute("employee");
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(empId);
         employeeService.updateById(employee);
 
         return R.success("信息修改成功！");
     }
 
     @GetMapping("/{id}")
-    public R<Employee> getById(@PathVariable long id){
+    public R<Employee> getById(@PathVariable Long id){
         log.info("根据ID查询..");
         Employee employee = employeeService.getById(id);
         if(employee != null) return R.success(employee);
